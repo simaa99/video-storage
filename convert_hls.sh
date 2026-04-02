@@ -36,8 +36,8 @@ ffmpeg -y -i "$INPUT_FILE" \
   "$OUTPUT_DIR/v1/index.m3u8"
 
 # Get resolutions for master playlist
-V0_RES=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$OUTPUT_DIR/v0/seg000.ts" || echo "406x720")
-V1_RES=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$OUTPUT_DIR/v1/seg000.ts" || echo "202x360")
+V0_RES=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$OUTPUT_DIR/v0/seg000.ts" | head -n 1 | tr -d '\r\n' || echo "406x720")
+V1_RES=$(ffprobe -v error -select_streams v:0 -show_entries stream=width,height -of csv=s=x:p=0 "$OUTPUT_DIR/v1/seg000.ts" | head -n 1 | tr -d '\r\n' || echo "202x360")
 
 # Create Master Playlist
 cat <<EOF > "$OUTPUT_DIR/master.m3u8"
